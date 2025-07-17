@@ -18,6 +18,9 @@ a:hover {
 ul {
     list-style: square;
 }
+.subtitle {
+    color: #ff3333;
+}
 .terminal-box {
     border: 2px solid #0f0;
     padding: 10px;
