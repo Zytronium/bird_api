@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   override_btn.addEventListener("click", async () => {
     // Create video element
-    video.src = "videos/abc.webm";
+    video.src = "/videos/abc.webm";
     video.playsInline = true;
     video.loop = true;
     document.body.appendChild(video);
