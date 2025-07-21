@@ -1,70 +1,108 @@
 #!/usr/bin/node
-export const getStatus = (req, res) => {
-  res.status(200).send({ "BIRD": true });
-};
 
-export const getBattery = (req, res) => {
-  res.status(200).send({ "Battery Level": 80, "Charging": false });
-};
+export class AppController {
+  static routeMeta = {
+    getStatus: {
+      path: '/status',
+      method: 'GET',
+      description: 'Check if the drone system is alive.'
+    },
+    getBattery: {
+      path: '/battery',
+      method: 'GET',
+      description: 'Retrieve the current battery information.'
+    },
+    getTarget: {
+      path: '/target',
+      method: 'GET',
+      description: 'Fetch the current assigned target(s) for the drone.'
+    },
+    postTarget: {
+      path: '/target',
+      method: 'POST',
+      description: 'Assign a new target to the drone.'
+    },
+    getPanic: {
+      path: '/panic',
+      method: 'GET',
+      description: 'Temporary endpoint for triggering panic mode (self-destruct).'
+    },
+    postPanic: {
+      path: '/panic',
+      method: 'POST',
+      description: 'Activate panic mode (self-destruct) with POST (requires authorization).'
+    },
+    getEndpoints: {
+      path: '/endpoints',
+      method: 'GET',
+      description: 'List all available API endpoints, methods, and descriptions.'
+    }
+  };
 
-export const getTarget = (req, res) => {
-  // todo: get current target for the drone, or none
-  res.status(501).send("Not Implemented");
-};
+  static getStatus(req, res) {
+    // TODO: Make this sometimes return false based on MongoDB
+    res.status(200).send({ "BIRD": true });
+  }
 
-export const postTarget = (req, res) => {
-  // todo: set a new target for the drone
-  res.status(501).send("Not Implemented");
-};
+  static getBattery(req, res) {
+    // TODO: Make this return data from MongoDB
+    //  Ideas:
+    //  * Make battery level go down based on time since last request
+    //  * If battery gets below a certain point*, charging = true
+    //  * *: That certain point is determined with a slightly random variance each time the bird finishes charging and is then stored in MongoDB until next time.
+    //  * If charging = true, battery level goes up based on time since it started charging
+    //  * Each request has a chance at bringing down the battery level by 1%
+    res.status(200).send({ "Battery Level": 80, "Charging": false });
+  }
 
-export const getPanic = (req, res, next) => {
-  const err = new Error('Forbidden');
-  err.status = 403;
-  next(err);
-};
+  static getTarget(req, res) {
+    // TODO: Implement target retrieval logic
+    res.status(501).send("Not Implemented");
+  }
 
-export const postPanic = (req, res, next) => {
-  const err = new Error('Forbidden');
-  err.status = 403;
-  next(err);
-};
+  static postTarget(req, res) {
+    // TODO: Implement target setting logic
+    res.status(501).send("Not Implemented");
+  }
 
-export const getHome = (req, res, router) => {
-  const host = req.get('host'); // e.g. "10.8.220.39:5000" or "localhost:5000"
-  const protocol = req.protocol; // "http" or "https"
+  static getPanic(req, res, next) {
+    const err = new Error('Forbidden');
+    err.status = 403;
+    next(err);
+  }
 
-  let html = '<h1>Available API Endpoints</h1><ul>';
+  static postPanic(req, res, next) {
+    const err = new Error('Forbidden');
+    err.status = 403;
+    next(err);
+  }
 
-  router.stack.forEach(layer => {
-    if (layer.route) {
-      const path = layer.route.path;
-      const methods = Object.keys(layer.route.methods).map(m => m.toUpperCase());
+  static getEndpoints(req, res, router) {
+    const routesMap = {};
+
+    router.stack.forEach(layer => {
+      if (!layer.route) return;
+
+      const fullPath = `/api${layer.route.path}`;
+      const methods = Object.keys(layer.route.methods).map(m => m.toLowerCase());
+
+      if (!routesMap[fullPath]) {
+        routesMap[fullPath] = {};
+      }
 
       methods.forEach(method => {
-        if (method === 'GET') {
-          const url = `${protocol}://${host}${path}`;
-          html += `<li><a href="${url}">${method} ${path}</a></li>`;
-        } else {
-          html += `<li>${method} ${path}</li>`;
-        }
+        const meta = Object.values(AppController.routeMeta).find(meta =>
+          meta.method.toLowerCase() === method && meta.path === layer.route.path
+        );
+
+        routesMap[fullPath][method] = {
+          description: meta?.description || 'No description set'
+        };
       });
-    }
-  });
+    });
 
-  html += '</ul>';
-  res.status(200).send(html);
-};
-
-export const getEndpoints = (req, res, router) => {
-  const routes = [];
-
-  router.stack.forEach(layer => {
-    if (layer.route) {
-      const path = layer.route.path;
-      const methods = Object.keys(layer.route.methods).map(m => m.toUpperCase());
-      routes.push({ path, methods });
-    }
-  });
-
-  res.status(200).json(routes);
+    res.status(200).json(routesMap);
+  }
 }
+
+export default AppController;

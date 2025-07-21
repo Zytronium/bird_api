@@ -1,35 +1,30 @@
 #!/usr/bin/node
 import express from "express";
-import * as AppController from "../controller/AppController.js";
+import AppController from "../controller/AppController.js";
 
 const router = express.Router();
 
-/* ---------------------- FRONT END --------------------- */
+/* ------------------------- API Routes ------------------------ */
 
-// GET / - home page. gets all API endpoints and adds links to them
-router.get('/', (req, res) => AppController.getHome(req, res, router));
+// GET /status - Get drone status
+router.get('/status', AppController.getStatus);
 
-/* ------------------------- API ------------------------ */
+// GET /battery - Get drone battery information
+router.get('/battery', AppController.getBattery);
 
-// GET /status - gets the status of the drone
-router.get('/api/status', AppController.getStatus);
+// GET /target - Get current target(s)
+router.get('/target', AppController.getTarget);
 
-// GET /battery - gets the battery information of the drone
-router.get('/api/battery', AppController.getBattery);
+// POST /target - Add a new target
+router.post('/target', AppController.postTarget);
 
-// GET /target - gets the current target(s) for the drone
-router.get('/api/target', AppController.getTarget);
+// GET /panic - Self-destruct activation GUI (requires authorization)
+router.get('/panic', AppController.getPanic);
 
-// POST /target - adds a target for the drone
-router.post('/api/target', AppController.postTarget);
+// POST /panic - Activate self-destruct (requires authorization)
+router.post('/panic', AppController.postPanic);
 
-// GET /panic - GUI to activate self destruct sequence. Requires authorization
-router.get('/api/panic', AppController.getPanic);
-
-// POST /panic - activates self destruct sequence. Requires authorization
-router.post('/api/panic', AppController.postPanic);
-
-// GET /endpoints - gets all API endpoints
-router.get('/api/endpoints', (req, res) => AppController.getEndpoints(req, res, router));
+// GET /endpoints - List all API endpoints
+router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router));
 
 export default router;
