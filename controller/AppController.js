@@ -1,4 +1,5 @@
 #!/usr/bin/node
+import { randomFactoryLocation, isWithinUS } from '../utils/location.js';
 
 export class AppController {
   static routeMeta = {
@@ -109,5 +110,7 @@ export class AppController {
     res.status(501).send("Not Implemented");
   }
 }
+
+
 
 export default AppController;
