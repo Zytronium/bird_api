@@ -40,6 +40,11 @@ export class AppController {
     }
   };
 
+  static freeBird(req, res) {
+    // Redirect user to https://www.youtube.com/watch?v=YawLAGMWHTo
+    res.redirect(302, 'https://www.youtube.com/watch?v=YawLAGMWHTo');
+  }
+
   static getStatus(req, res) {
     // TODO: Make this sometimes return false based on MongoDB
     res.status(200).send({ "BIRD": true });

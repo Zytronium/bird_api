@@ -24,6 +24,12 @@ router.get('/panic', AppController.getPanic);
 // POST /panic - Activate self-destruct (requires authorization)
 router.post('/panic', AppController.postPanic);
 
+// GET /free - free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
+router.get('/free', AppController.freeBird)
+
+// GET /free-bird - free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
+router.get('/free-bird', AppController.freeBird)
+
 // GET /endpoints - List all API endpoints
 router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router));
 
