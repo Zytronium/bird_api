@@ -50,3 +50,8 @@ I implement relevant features.
 The "BIRD Hive" is a reference to the network connecting all bird drones
 together, similar to a hive mind. In actuality, the Hive is the MongoDB Atlas
 database that stores the data for each bird drone.
+
+### Bird Factories
+There are eighteen secret government bird manufacturing facilities spread across
+the United States. Whenever a new drone is created, it comes from one of these
+top secret factories.
