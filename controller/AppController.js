@@ -33,6 +33,31 @@ export class AppController {
       method: 'POST',
       description: 'Activate panic mode (self-destruct) with POST (requires authorization).'
     },
+    newBird: {
+      path: '/bird',
+      method: 'POST',
+      description: 'Build a new default bird and release it into the world.'
+    },
+    freeBird: {
+      path: '/free',
+      method: 'GET',
+      description: 'Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.'
+    },
+    freeBird2: {
+      path: '/free-bird',
+      method: 'GET',
+      description: 'Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.'
+    },
+    getMission: {
+      path: '/mission',
+      method: 'GET',
+      description: 'Retrieve current mission details for the drone.'
+    },
+    postMission: {
+      path: '/mission',
+      method: 'POST',
+      description: 'Assign a new mission to the drone.'
+    },
     getEndpoints: {
       path: '/endpoints',
       method: 'GET',
@@ -41,7 +66,7 @@ export class AppController {
   };
 
   static freeBird(req, res) {
-    // Redirect user to https://www.youtube.com/watch?v=YawLAGMWHTo
+    // Redirect user to Free Bird solo remix
     res.redirect(302, 'https://www.youtube.com/watch?v=YawLAGMWHTo');
   }
 
@@ -112,6 +137,16 @@ export class AppController {
 
   static newBird(req, res) {
     // TODO: Implement creating new bird logic
+    res.status(501).send("Not Implemented");
+  }
+
+  static postMission(req, res) {
+    // TODO: Implement mission creation logic
+    res.status(501).send("Not Implemented");
+  }
+
+  static getMission(req, res) {
+    // TODO: Implement mission detail get logic
     res.status(501).send("Not Implemented");
   }
 }

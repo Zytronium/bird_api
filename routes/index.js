@@ -4,35 +4,22 @@ import AppController from "../controller/AppController.js";
 
 const router = express.Router();
 
-/* ------------------------- API Routes ------------------------ */
+/* ----------------------- BIRDS ---------------------- */
 
-// GET /status - Get drone status
-router.get('/status', AppController.getStatus);
+router.get('/status', AppController.getStatus);     // GET  /status  - Get drone status
+router.get('/battery', AppController.getBattery);   // GET  /battery - Get drone battery information
+router.get('/target', AppController.getTarget);     // GET  /target  - Get current target(s)
+router.post('/target', AppController.postTarget);   // POST /target  - Add a new target
+router.get('/panic', AppController.getPanic);       // GET  /panic   - Self-destruct activation GUI (requires authorization)
+router.post('/panic', AppController.postPanic);     // POST /panic   - Activate self-destruct (requires authorization)
+router.get('/mission', AppController.getMission);   // GET  /mission - Retrieve mission details
+router.post('/mission', AppController.postMission); // POST /mission - Assign a new mission
+router.post('/bird', AppController.newBird);        // POST /bird    - Build a new default bird and release it into the world
 
-// GET /battery - Get drone battery information
-router.get('/battery', AppController.getBattery);
+/* ------------------------ MISC ----------------------- */
 
-// GET /target - Get current target(s)
-router.get('/target', AppController.getTarget);
-
-// POST /target - Add a new target
-router.post('/target', AppController.postTarget);
-
-// GET /panic - Self-destruct activation GUI (requires authorization)
-router.get('/panic', AppController.getPanic);
-
-// POST /panic - Activate self-destruct (requires authorization)
-router.post('/panic', AppController.postPanic);
-
-// GET /free - free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
-router.get('/free', AppController.freeBird)
-
-// GET /free-bird - free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
-router.get('/free-bird', AppController.freeBird)
-
-// GET /endpoints - List all API endpoints
-router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router));
-
-router.post('/bird', AppController.newBird)
+router.get('/free', AppController.freeBird);        // GET /free      - Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
+router.get('/free-bird', AppController.freeBird);   // GET /free-bird - Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
+router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router)); // GET /endpoints - List all API endpoints
 
 export default router;
