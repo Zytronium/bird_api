@@ -8,7 +8,11 @@ const targetSchema = new mongoose.Schema({
     lng: { type: Number, required: true }
   },
   reason: { type: String, required: true },
-  operation: { type: String, enum: ['observe', 'track', 'spy', 'eliminate'], required: true }
+  operation: {
+    type: String,
+    enum: ['observe', 'track', 'spy', 'eliminate'],
+    required: true
+  }
   /*
    * operations:
    *  observe: observe the target to look for suspicious activity.
@@ -16,7 +20,7 @@ const targetSchema = new mongoose.Schema({
    *  spy: spy on the target to find important info.
    *  eliminate: eliminate the target.
    */
-  }, { _id: false });
+}, { _id: false });
 
 const singleConditionSchema = new mongoose.Schema({
   property: { type: String, required: true },  // e.g. "battery.level"
@@ -29,12 +33,20 @@ const singleConditionSchema = new mongoose.Schema({
 }, { _id: false });
 
 const conditionGroupSchema = new mongoose.Schema({
-  operator: { type: String, enum: ['AND', 'OR', 'XOR'], default: 'AND' },
+  operator: {
+    type:
+    String, enum: ['AND', 'OR', 'XOR'],
+    default: 'AND'
+  },
   conditions: { type: [singleConditionSchema], required: true }
 }, { _id: false });
 
 const modeSchema = new mongoose.Schema({
-  mode: { type: String, enum: ['active', 'standby', 'recharge', 'inactive', 'panic'],required: true },
+  mode: {
+    type: String,
+    enum: ['active', 'standby', 'recharge', 'inactive', 'panic'],
+    required: true
+  },
   since: { type: Date, default: Date.now },
   until_time: { type: Date },
   until_condition: conditionGroupSchema
@@ -53,7 +65,8 @@ const missionSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['scan', 'observe', 'track', 'spy', 'eliminate'],
-    required: true },
+    required: true
+  },
   targets: [targetSchema]
   /*
    * types:
@@ -70,7 +83,11 @@ const birdSchema = new mongoose.Schema({
     level: { type: Number, default: 100 },
     charging: { type: Boolean, default: false },
   },
-  status: { type: String, enum: ['online', 'offline', 'unknown', 'destroyed'], default: true },
+  status: {
+    type: String,
+    enum: ['online', 'offline', 'unknown', 'destroyed'],
+    default: true
+  },
   destination: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
@@ -80,14 +97,14 @@ const birdSchema = new mongoose.Schema({
     lat: { type: Number, required: true },
     lng: { type: Number, required: true }
   },
-  velocity: { type: Number, default: 0 },  // MPH
+  velocity: { type: Number, default: 0 },  // MPH because wtf is a kilometer
   targets: [targetSchema],
   mode: modeSchema,
   mission: missionSchema,
   logs: [
     {
-    timestamp: { type: Date, required: true },
-    event: { type: String, required: true },
+      timestamp: { type: Date, required: true },
+      event: { type: String, required: true },
     }
   ]
 }, { timestamps: true });

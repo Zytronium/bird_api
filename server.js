@@ -1,9 +1,11 @@
 #!/usr/bin/node
 import express from "express";
 import routes from "./routes/index.js";
+import { connectDB } from "./config/db.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+
 dotenv.config({ quiet: true });
 
 process.on('uncaughtException', console.error);
@@ -52,6 +54,9 @@ app.use((err, req, res, next) => {
     }
   });
 });
+
+// Connect to MongoDB
+await connectDB();
 
 // Start Server
 app.listen(port, host, () => {

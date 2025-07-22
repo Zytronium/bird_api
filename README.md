@@ -38,3 +38,15 @@ intervene the mostly autonomous drones.
 Some functions will require authorization to prevent abuse of the system,
 while others, such as purely informational endpoints, will be free for anyone
 to use.
+
+---
+
+## Documentation and lore
+Below, I will put somewhat unorganized information about both the lore and inner
+workings of this API. I will update this either as I come up with ideas or as
+I implement relevant features.
+
+### The BIRD Hive
+The "BIRD Hive" is a reference to the network connecting all bird drones
+together, similar to a hive mind. In actuality, the Hive is the MongoDB Atlas
+database that stores the data for each bird drone.

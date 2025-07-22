@@ -27,4 +27,6 @@ router.post('/panic', AppController.postPanic);
 // GET /endpoints - List all API endpoints
 router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router));
 
+router.post('/bird', AppController.newBird)
+
 export default router;

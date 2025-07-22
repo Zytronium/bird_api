@@ -103,6 +103,11 @@ export class AppController {
 
     res.status(200).json(routesMap);
   }
+
+  static newBird(req, res) {
+    // TODO: Implement creating new bird logic
+    res.status(501).send("Not Implemented");
+  }
 }
 
 export default AppController;
