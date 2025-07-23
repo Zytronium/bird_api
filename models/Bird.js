@@ -34,8 +34,8 @@ const singleConditionSchema = new mongoose.Schema({
 
 const conditionGroupSchema = new mongoose.Schema({
   operator: {
-    type:
-    String, enum: ['AND', 'OR', 'XOR'],
+    type: String,
+    enum: ['AND', 'OR', 'XOR'],
     default: 'AND'
   },
   conditions: { type: [singleConditionSchema], required: true }
@@ -64,7 +64,7 @@ const missionSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: {
     type: String,
-    enum: ['scan', 'observe', 'track', 'spy', 'eliminate'],
+    enum: ['scan', 'observe', 'track', 'spy', 'eliminate', 'n/a'],
     required: true
   },
   targets: [targetSchema]
@@ -75,6 +75,7 @@ const missionSchema = new mongoose.Schema({
    *  track: track the location of the target(s) so they can be located.
    *  spy: spy on the target(s) to find important info.
    *  eliminate: the target(s) has/have been identified as (a) threat(s) to democracy. Eliminate them.
+   *  n/a: do nothing / miscellaneous mission. Blend in with other birds.
    */
 }, { _id: false });
 

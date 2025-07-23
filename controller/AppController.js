@@ -1,5 +1,6 @@
 #!/usr/bin/node
 import { randomFactoryLocation, isWithinUS } from '../utils/location.js';
+import { createDefaultBird } from "../utils/birdFactory.js";
 
 export class AppController {
   static routeMeta = {
@@ -135,9 +136,16 @@ export class AppController {
     res.status(200).json(routesMap);
   }
 
-  static newBird(req, res) {
-    // TODO: Implement creating new bird logic
-    res.status(501).send("Not Implemented");
+  static async newBird(req, res) {
+    // TODO: make this require authorization or extreme rate limits
+    try {
+      const overrides = req.body || {};
+      const bird = await createDefaultBird(overrides);
+      res.status(201).json(bird);
+    } catch(err) {
+      console.error("Error creating bird:", err);
+      res.status(500).json({ error: `Failed to create bird: ${err.message}` });
+    }
   }
 
   static postMission(req, res) {
@@ -150,7 +158,5 @@ export class AppController {
     res.status(501).send("Not Implemented");
   }
 }
-
-
 
 export default AppController;

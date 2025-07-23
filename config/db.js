@@ -16,7 +16,7 @@ export const connectDB = async () => {
       console.log("Connected to the BIRD Hive"); // (BIRD Hive = MongoDB Atlas db)
       return;
     } catch (err) {
-      console.error(`(${tries}/15) Failed to connect to the BIRD Hive:`, err.name);
+      console.error(`(${tries}/15) Failed to connect to the BIRD Hive. ${err.name}: "${err.message}"`);
       error = err;
     }
     if (tries === 15) {
@@ -25,6 +25,6 @@ export const connectDB = async () => {
       // process.exit(1);
       }
     else
-      await sleep(500);
+      await sleep(250);
   }
 };

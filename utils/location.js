@@ -1,10 +1,10 @@
 #!/usr/bin/node
-
-
 export const birdFactories = [
   { lat: 38.9072, lng: -77.0369 },  // Washington, D.C.
-  { lat: 34.0522, lng: -118.2437 }, // Los Angeles, CA
+  { lat: 27.6928, lng: -97.2754 },  // Corpus Christi, TX
+  { lat: 39.2992, lng: -76.6094 },  // Baltimore, MD
   { lat: 41.8781, lng: -87.6298 },  // Chicago, IL
+  { lat: 34.0522, lng: -118.2437 }, // Los Angeles, CA
   { lat: 29.7604, lng: -95.3698 },  // Houston, TX
   { lat: 39.7392, lng: -104.9903 }, // Denver, CO
   { lat: 47.6062, lng: -122.3321 }, // Seattle, WA
@@ -29,6 +29,6 @@ export function randomFactoryLocation() {
 export function isWithinUS(lat, lng) {
   return (
     lat >= 24.396308 && lat <= 49.384358 &&
-    lng >= -125.000000 && lng <= -66.934570
+    lng >= -125 && lng <= -66.93457
   );
 }
