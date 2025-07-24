@@ -4,6 +4,7 @@ import { createDefaultBird } from "../utils/birdFactory.js";
 import { connectDB } from "../config/db.js";
 import Bird from "../models/Bird.js";
 import { ObjectId } from 'mongodb';
+import Simulation from "../utils/simulation.js";
 
 export class AppController {
   static routeMeta = {
@@ -74,13 +75,21 @@ export class AppController {
     }
   };
 
-  static freeBird(req, res) {
+  static async freeBird(req, res) {
+    // Update the simulation
+    await Simulation.update();
+
+    console.log("FREE THE BIRD!1");
+
     // Redirect user to Free Bird solo remix
     res.redirect(302, 'https://www.youtube.com/watch?v=YawLAGMWHTo');
   }
 
   static async getStatus(req, res) {
     const birdId = req.params.id;
+
+    // Update the simulation
+    await Simulation.update();
 
     // Check if ID is a valid format
     if (!ObjectId.isValid(birdId)) {
@@ -101,7 +110,7 @@ export class AppController {
     return res.status(200).send({ status: bird.status });
   }
 
-  static getBattery(req, res) {
+  static async getBattery(req, res) {
     // TODO: Make this return data from MongoDB
     //  Ideas:
     //  * Make battery level go down based on time since last request
@@ -109,26 +118,55 @@ export class AppController {
     //  * *: That certain point is determined with a slightly random variance each time the bird finishes charging and is then stored in MongoDB until next time.
     //  * If charging = true, battery level goes up based on time since it started charging
     //  * Each request has a chance at bringing down the battery level by 1%
-    res.status(200).send({ "Battery Level": 80, "Charging": false });
+    const birdId = req.params.id;
+
+    // Update the simulation
+    await Simulation.update();
+
+    // Check if ID is a valid format
+    if (!ObjectId.isValid(birdId)) {
+      return res.status(400).send({ error: 'Bad request' });
+    }
+    // Get bird from MongoDB
+    const bird = await Bird.findById(new ObjectId(birdId));
+    // Check if bird exists
+    if (!bird) {
+      return res.status(404).send({ error: 'Not found' });
+    }
+    // Ensure bird.battery exists
+    if (!bird.battery) {
+      return res.status(204).send({ error: 'No content' });
+    }
+
+    // Send the bird's battery info
+    return res.status(200).send({ battery: bird.battery });
   }
 
-  static getTarget(req, res) {
+  static async getTarget(req, res) {
     // TODO: Implement target retrieval logic
+    // Update the simulation
+    await Simulation.update();
     res.status(501).send("Not Implemented");
   }
 
-  static postTarget(req, res) {
+  static async postTarget(req, res) {
     // TODO: Implement target setting logic
+    // Update the simulation
+    await Simulation.update();
     res.status(501).send("Not Implemented");
   }
 
-  static getPanic(req, res, next) {
+  static async getPanic(req, res, next) {
+    // Update the simulation
+    await Simulation.update();
     const err = new Error('Forbidden');
     err.status = 403;
     next(err);
   }
 
-  static postPanic(req, res, next) {
+  static async postPanic(req, res, next) {
+    // Update the simulation
+    await Simulation.update();
     const err = new Error('Forbidden');
     err.status = 403;
     next(err);
@@ -163,11 +201,17 @@ export class AppController {
 
   static async getBird(req, res) {
     // TODO: get details of specified bird
+    // Update the simulation
+    await Simulation.update();
+
     return res.status(501).send("Not Implemented");
   }
 
   static async newBird(req, res) {
     // TODO: make this require authorization or extreme rate limits
+    // Update the simulation
+    await Simulation.update();
+
     try {
       const overrides = req.body || {};
       const bird = await createDefaultBird(overrides);
@@ -178,13 +222,19 @@ export class AppController {
     }
   }
 
-  static postMission(req, res) {
+  static async postMission(req, res) {
     // TODO: Implement mission creation logic
+    // Update the simulation
+    await Simulation.update();
+
     res.status(501).send("Not Implemented");
   }
 
-  static getMission(req, res) {
+  static async getMission(req, res) {
     // TODO: Implement mission detail get logic
+    // Update the simulation
+    await Simulation.update();
+
     res.status(501).send("Not Implemented");
   }
 }
