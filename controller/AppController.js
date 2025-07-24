@@ -1,41 +1,44 @@
 #!/usr/bin/node
 import { randomFactoryLocation, isWithinUS } from '../utils/location.js';
 import { createDefaultBird } from "../utils/birdFactory.js";
+import { connectDB } from "../config/db.js";
+import Bird from "../models/Bird.js";
+import { ObjectId } from 'mongodb';
 
 export class AppController {
   static routeMeta = {
     getStatus: {
-      path: '/bird/status',
+      path: '/bird/:id/status',
       method: 'GET',
       description: 'Check if the drone system is alive.'
     },
     getBattery: {
-      path: '/bird/battery',
+      path: '/bird/:id/battery',
       method: 'GET',
       description: 'Retrieve the current battery information.'
     },
     getTarget: {
-      path: '/bird/target',
+      path: '/bird/:id/target',
       method: 'GET',
       description: 'Fetch the current assigned target(s) for the drone.'
     },
     postTarget: {
-      path: '/bird/target',
+      path: '/bird/:id/target',
       method: 'POST',
       description: 'Assign a new target to the drone.'
     },
     getPanic: {
-      path: '/bird/panic',
+      path: '/bird/:id/panic',
       method: 'GET',
       description: 'Temporary endpoint for triggering panic mode (self-destruct).'
     },
     postPanic: {
-      path: '/bird/panic',
+      path: '/bird/:id/panic',
       method: 'POST',
       description: 'Activate panic mode (self-destruct) with POST (requires authorization).'
     },
     getBird: {
-      path: '/bird',
+      path: '/bird/:id',
       method: 'GET',
       description: 'Retrieve the details of a drone.'
     },
@@ -55,12 +58,12 @@ export class AppController {
       description: 'Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.'
     },
     getMission: {
-      path: '/bird/mission',
+      path: '/bird/:id/mission',
       method: 'GET',
       description: 'Retrieve current mission details for the drone.'
     },
     postMission: {
-      path: '/bird/mission',
+      path: '/bird/:id/mission',
       method: 'POST',
       description: 'Assign a new mission to the drone.'
     },
@@ -76,9 +79,26 @@ export class AppController {
     res.redirect(302, 'https://www.youtube.com/watch?v=YawLAGMWHTo');
   }
 
-  static getStatus(req, res) {
-    // TODO: Make this sometimes return false based on MongoDB
-    res.status(200).send({ "BIRD": true });
+  static async getStatus(req, res) {
+    const birdId = req.params.id;
+
+    // Check if ID is a valid format
+    if (!ObjectId.isValid(birdId)) {
+      return res.status(400).send({ error: 'Bad request' });
+    }
+    // Get bird from MongoDB
+    const bird = await Bird.findById(new ObjectId(birdId));
+    // Check if bird exists
+    if (!bird) {
+      return res.status(404).send({ error: 'Not found' });
+    }
+    // Ensure bird.status exists
+    if (!bird.status) {
+      return res.status(204).send({ error: 'No content' });
+    }
+
+    // Send the bird's status
+    return res.status(200).send({ status: bird.status });
   }
 
   static getBattery(req, res) {
@@ -152,7 +172,7 @@ export class AppController {
       const overrides = req.body || {};
       const bird = await createDefaultBird(overrides);
       res.status(201).json(bird);
-    } catch(err) {
+    } catch (err) {
       console.error("Error creating bird:", err);
       res.status(500).json({ error: `Failed to create bird: ${err.message}` });
     }

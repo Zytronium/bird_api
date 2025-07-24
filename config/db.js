@@ -13,7 +13,7 @@ export const connectDB = async () => {
     let error;
     try {
       await mongoose.connect(uri);
-      console.log("Connected to the BIRD Hive"); // (BIRD Hive = MongoDB Atlas db)
+      console.log("Connected to the BIRD Hive"); // (BIRD Hive = MongoDB Atlas db);
       return;
     } catch (err) {
       console.error(`(${tries}/15) Failed to connect to the BIRD Hive. ${err.name}: "${err.message}"`);
