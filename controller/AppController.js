@@ -5,34 +5,39 @@ import { createDefaultBird } from "../utils/birdFactory.js";
 export class AppController {
   static routeMeta = {
     getStatus: {
-      path: '/status',
+      path: '/bird/status',
       method: 'GET',
       description: 'Check if the drone system is alive.'
     },
     getBattery: {
-      path: '/battery',
+      path: '/bird/battery',
       method: 'GET',
       description: 'Retrieve the current battery information.'
     },
     getTarget: {
-      path: '/target',
+      path: '/bird/target',
       method: 'GET',
       description: 'Fetch the current assigned target(s) for the drone.'
     },
     postTarget: {
-      path: '/target',
+      path: '/bird/target',
       method: 'POST',
       description: 'Assign a new target to the drone.'
     },
     getPanic: {
-      path: '/panic',
+      path: '/bird/panic',
       method: 'GET',
       description: 'Temporary endpoint for triggering panic mode (self-destruct).'
     },
     postPanic: {
-      path: '/panic',
+      path: '/bird/panic',
       method: 'POST',
       description: 'Activate panic mode (self-destruct) with POST (requires authorization).'
+    },
+    getBird: {
+      path: '/bird',
+      method: 'GET',
+      description: 'Retrieve the details of a drone.'
     },
     newBird: {
       path: '/bird',
@@ -40,7 +45,7 @@ export class AppController {
       description: 'Build a new default bird and release it into the world.'
     },
     freeBird: {
-      path: '/free',
+      path: '/bird/free',
       method: 'GET',
       description: 'Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.'
     },
@@ -50,12 +55,12 @@ export class AppController {
       description: 'Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.'
     },
     getMission: {
-      path: '/mission',
+      path: '/bird/mission',
       method: 'GET',
       description: 'Retrieve current mission details for the drone.'
     },
     postMission: {
-      path: '/mission',
+      path: '/bird/mission',
       method: 'POST',
       description: 'Assign a new mission to the drone.'
     },
@@ -134,6 +139,11 @@ export class AppController {
     });
 
     res.status(200).json(routesMap);
+  }
+
+  static async getBird(req, res) {
+    // TODO: get details of specified bird
+    return res.status(501).send("Not Implemented");
   }
 
   static async newBird(req, res) {
