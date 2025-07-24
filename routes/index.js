@@ -6,16 +6,17 @@ const router = express.Router();
 
 /* ----------------------- BIRDS ---------------------- */
 
-router.get('/bird/:id/status', AppController.getStatus);     // GET  /bird/:id/status  - Get drone status
-router.get('/bird/:id/battery', AppController.getBattery);   // GET  /bird/:id/battery - Get drone battery information
-router.get('/bird/:id/target', AppController.getTarget);     // GET  /bird/:id/target  - Get current target(s)
-router.post('/bird/:id/target', AppController.postTarget);   // POST /bird/:id/target  - Add a new target
-router.get('/bird/:id/panic', AppController.getPanic);       // GET  /bird/:id/panic   - Self-destruct activation GUI (requires authorization)
-router.post('/bird/:id/panic', AppController.postPanic);     // POST /bird/:id/panic   - Activate self-destruct (requires authorization)
-router.get('/bird/:id/mission', AppController.getMission);   // GET  /bird/:id/mission - Retrieve mission details
-router.post('/bird/:id/mission', AppController.postMission); // POST /bird/:id/mission - Assign a new mission
-router.get('/bird/:id/info', AppController.getBird);         // GET  /bird/:id/info    - Get all the details of a bird
-router.post('/bird', AppController.newBird);                 // POST /bird             - Build a new default bird and release it into the world
+router.get('/bird/:id/status', AppController.getStatus);     // GET  /bird/:id/status   - Get drone status
+router.get('/bird/:id/battery', AppController.getBattery);   // GET  /bird/:id/battery  - Get drone battery information
+router.get('/bird/:id/target', AppController.getTarget);     // GET  /bird/:id/target   - Get current target(s)
+router.post('/bird/:id/target', AppController.postTarget);   // POST /bird/:id/target   - Add a new target
+router.get('/bird/:id/location', AppController.getLocation); // GET  /bird/:id/location - Get drone location
+router.get('/bird/:id/panic', AppController.getPanic);       // GET  /bird/:id/panic    - Self-destruct activation GUI (requires authorization)
+router.post('/bird/:id/panic', AppController.postPanic);     // POST /bird/:id/panic    - Activate self-destruct (requires authorization)
+router.get('/bird/:id/mission', AppController.getMission);   // GET  /bird/:id/mission  - Retrieve mission details
+router.post('/bird/:id/mission', AppController.postMission); // POST /bird/:id/mission  - Assign a new mission
+router.get('/bird/:id/info', AppController.getBird);         // GET  /bird/:id/info     - Get all the details of a bird
+router.post('/bird', AppController.newBird);                 // POST /bird              - Build a new default bird and release it into the world
 
 /* ------------------------ MISC ----------------------- */
 

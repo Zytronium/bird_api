@@ -156,6 +156,33 @@ export class AppController {
     res.status(501).send("Not Implemented");
   }
 
+  static async getLocation(req, res) {
+    const birdId = req.params.id;
+
+    // Update the simulation
+    await Simulation.update();
+
+    // Check if ID is a valid format
+    if (!ObjectId.isValid(birdId)) {
+      return res.status(400).send({ error: 'Bad request' });
+    }
+    // Get bird from MongoDB
+    const bird = await Bird.findById(new ObjectId(birdId));
+    // Check if bird exists
+    if (!bird) {
+      return res.status(404).send({ error: 'Not found' });
+    }
+    // Ensure bird.location exists
+    if (!bird.location) {
+      return res.status(204).send({ error: 'No content' });
+    }
+
+    // Send the bird's status
+    return res.status(200).send({ location: bird.location });
+
+
+  }
+
   static async getPanic(req, res, next) {
     // Update the simulation
     await Simulation.update();
