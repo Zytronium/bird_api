@@ -22,6 +22,9 @@ const host = process.env.HOST || '0.0.0.0';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Trust proxy to accurately log IPs
+app.set('trust proxy', true)
+
 // Request Logger
 app.use((req, res, next) => {
   const start = Date.now();

@@ -17,11 +17,11 @@ router.get('/bird/:id/mission', AppController.getMission);   // GET  /bird/:id/m
 router.post('/bird/:id/mission', AppController.postMission); // POST /bird/:id/mission  - Assign a new mission
 router.get('/bird/:id/info', AppController.getBird);         // GET  /bird/:id/info     - Get all the details of a bird
 router.post('/bird', AppController.newBird);                 // POST /bird              - Build a new default bird and release it into the world
+router.get('/birds', AppController.getBirds);                // GET  /birds             - Get info on all birds in the system
 
 /* ------------------------ MISC ----------------------- */
 
 router.get('/bird/:id/free', AppController.freeBird);        // GET /bird/:id/free - Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
-router.get('/bird/free', AppController.freeBird);            // GET /bird/free     - Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
 router.get('/free-bird', AppController.freeBird);            // GET /free-bird     - Free a single bird? No. Free Bird solo by Lynyrd Skynyrd.
 router.get('/endpoints', (req, res) => AppController.getEndpoints(req, res, router)); // GET /endpoints - List all API endpoints
 
